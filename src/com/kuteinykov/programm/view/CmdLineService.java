@@ -1,6 +1,8 @@
 package com.kuteinykov.programm.view;
 
+import java.io.IOException;
+
 public interface CmdLineService {
 
-    void showMenu();
+    void runMenu() throws IOException;
 }
