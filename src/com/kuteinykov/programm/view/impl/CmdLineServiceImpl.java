@@ -75,7 +75,7 @@ public class CmdLineServiceImpl implements CmdLineService {
         System.out.println("Enter phoneNumber");
         String phoneNumber = br.readLine();
         phoneNumber = phoneNumber.trim();
-        if(!checkInput(phoneNumber,SYMBOLS_PHONE_NUMBER)) {
+        if(!checkInput( phoneNumber, SYMBOLS_PHONE_NUMBER)) {
             System.out.println("Wrong input! " + SYMBOLS_PHONE_NUMBER);
             return;
         }
@@ -87,7 +87,7 @@ public class CmdLineServiceImpl implements CmdLineService {
         System.out.println("Enter age");
         String number = br.readLine();
         number = number.trim();
-        if(!checkInput(number,DIGITS)) {
+        if(!checkInput( number, DIGITS)) {
             System.out.println("Wrong input!");
             return;
         }
@@ -107,7 +107,7 @@ public class CmdLineServiceImpl implements CmdLineService {
     private void deleteContact() throws IOException {
         System.out.println("Enter ID");
         String number = br.readLine();
-        if(checkInput(number,DIGITS)) {
+        if(checkInput( number, DIGITS)) {
             int id = Integer.parseInt(number);
             this.contactService.deleteContact(id);
         } else System.out.println("Wrong input!");
@@ -121,7 +121,7 @@ public class CmdLineServiceImpl implements CmdLineService {
 
         System.out.println("Enter ID");
         String number = br.readLine();
-        if(checkInput(number,DIGITS)) {
+        if(checkInput( number, DIGITS)) {
             int id = Integer.parseInt(number);
 
             String name = readName();
