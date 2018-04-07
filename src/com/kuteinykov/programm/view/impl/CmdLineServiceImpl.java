@@ -150,12 +150,12 @@ public class CmdLineServiceImpl implements CmdLineService {
         return name.trim();
     }
 
-    private boolean checkInput(String number,String DIGITS ){
+    private boolean checkInput(String number,String digits ){
 
         if(number.isEmpty()) return false;
 
         for (int i = 0; i < number.length(); i++){
-            if (!DIGITS.contains(number.substring(i,(i+1))))
+            if (!digits.contains(number.substring(i,(i+1))))
                 return false;
         }
         return true;
