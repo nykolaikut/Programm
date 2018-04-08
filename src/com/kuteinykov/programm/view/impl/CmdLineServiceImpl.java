@@ -13,6 +13,8 @@ public class CmdLineServiceImpl implements CmdLineService {
     private static final String DIGITS = "0987654321";
     private static final String SYMBOLS_PHONE_NUMBER = "+- 0987654321";
     private static final int MIN_NUMBER_OF_DIGITS = 7;
+    private static final int MAX_NUMBER_OF_DIGITS = 12;
+    private static final int MAX_AGE = 100;
 
     private ContactService contactService;
     private BufferedReader br =
@@ -63,7 +65,7 @@ public class CmdLineServiceImpl implements CmdLineService {
     private static void showMenu() {
         System.out.println("1. Create Contact");
         System.out.println("2. Delete Contact");
-        System.out.println("3. View Contact");
+        System.out.println("3. Show Contact");
         System.out.println("4. Edit Contact");
         System.out.println("5. Find Contact");
         System.out.println("0. Exit");
@@ -71,44 +73,21 @@ public class CmdLineServiceImpl implements CmdLineService {
 
     private void createContact() throws IOException {
         String name = readName();
+        String phoneNumber = readPhoneNumber();
+        int age = readAge();
+        String address = readAddress();
 
-        System.out.println("Enter phoneNumber");
-        String phoneNumber = br.readLine();
-        phoneNumber = phoneNumber.trim();
-        if(!checkInput( phoneNumber, SYMBOLS_PHONE_NUMBER)) {
-            System.out.println("Wrong input! " + SYMBOLS_PHONE_NUMBER);
-            return;
-        }
-        if(countDigits(phoneNumber) < MIN_NUMBER_OF_DIGITS){
-            System.out.println("Wrong input!");
-            return;
-        }
-
-        System.out.println("Enter age");
-        String number = br.readLine();
-        number = number.trim();
-        if(!checkInput( number, DIGITS)) {
-            System.out.println("Wrong input!");
-            return;
-        }
-        int age = Integer.parseInt(number);
-
-        System.out.println("Enter address");
-        String address = br.readLine();
-        address = address.trim();
-
-        if (!name.isEmpty() && !phoneNumber.isEmpty() ) {
+        if (!name.isEmpty() && !phoneNumber.isEmpty() && age > 0 && age <= MAX_AGE ) {
             this.contactService.createContact(name, phoneNumber, age, address);
         } else {
-            System.out.println("A name and phone number must be provided" );
+            System.out.println("Wrong input!");
         }
     }
 
     private void deleteContact() throws IOException {
         System.out.println("Enter ID");
-        String number = br.readLine();
-        if(checkInput( number, DIGITS)) {
-            int id = Integer.parseInt(number);
+        int id = readInt();
+        if(id > 0) {
             this.contactService.deleteContact(id);
         } else System.out.println("Wrong input!");
     }
@@ -118,19 +97,20 @@ public class CmdLineServiceImpl implements CmdLineService {
 
     }
     private void editContact() throws IOException {
-
         System.out.println("Enter ID");
-        String number = br.readLine();
-        if(checkInput( number, DIGITS)) {
-            int id = Integer.parseInt(number);
-
+        int id = readInt();
+        if(id > 0) {
             String name = readName();
+            String phoneNumber = readPhoneNumber();
+            int age = readAge();
+            String address = readAddress();
 
-            if (!name.isEmpty())
-                this.contactService.editContact(id, name);
-            else System.out.println("Wrong input!");
-
-        } else System.out.println("Wrong input!");
+            if (!name.isEmpty() && !phoneNumber.isEmpty() && age > 0 && age <= MAX_AGE ) {
+                this.contactService.editContact(id, name, phoneNumber, age, address);
+            } else {
+                System.out.println("Wrong input!");
+            }
+        }
     }
 
     private void initContact(){
@@ -150,7 +130,50 @@ public class CmdLineServiceImpl implements CmdLineService {
         return name.trim();
     }
 
-    private boolean checkInput(String number,String digits ){
+    private String readPhoneNumber() throws IOException {
+
+        System.out.println("Enter phoneNumber");
+        String phoneNumber = br.readLine();
+        phoneNumber = phoneNumber.trim();
+        if(!checkInput( phoneNumber, SYMBOLS_PHONE_NUMBER)) {
+//            System.out.println("Wrong input! " + SYMBOLS_PHONE_NUMBER);
+            return "";
+        }
+        if(countDigits(phoneNumber, DIGITS) < MIN_NUMBER_OF_DIGITS
+                || countDigits(phoneNumber, DIGITS) > MAX_NUMBER_OF_DIGITS  ){
+//            System.out.println("Wrong input!");
+            return "";
+        }
+        return phoneNumber;
+    }
+
+    private int readAge() throws IOException {
+        System.out.println("Enter age");
+        return readInt();
+    }
+
+    private int readInt() throws IOException {
+        int number;
+        try {
+            System.out.println("Input number!");
+            String line = br.readLine();
+            number = new Integer(line);
+        }
+        catch (NumberFormatException e) {
+//            System.out.println("Wrong Input!");
+            return -1;
+        }
+        return number;
+    }
+
+
+    private String readAddress() throws IOException {
+        System.out.println("Enter address");
+        String address = br.readLine();
+        return address.trim();
+    }
+
+    private boolean checkInput(String number, String digits){
 
         if(number.isEmpty()) return false;
 
@@ -161,16 +184,16 @@ public class CmdLineServiceImpl implements CmdLineService {
         return true;
     }
 
-    private int countDigits(String number){
+    private int countDigits(String number, String digits){
 
         if(number.isEmpty()) return 0;
 
         String digitsPhonNumber = "";
 
         for (int i = 0; i < number.length(); i++){
-            if (DIGITS.contains(number.substring(i,(i+1))))
+            if (digits.contains(number.substring(i,(i+1))))
                 digitsPhonNumber += number.substring(i,(i+1));
         }
-        return Integer.toString(Integer.parseInt(digitsPhonNumber)).length();
+        return Long.toString(Long.valueOf(digitsPhonNumber)).length();
     }
 }

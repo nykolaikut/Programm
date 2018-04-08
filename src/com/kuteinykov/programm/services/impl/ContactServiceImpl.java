@@ -38,10 +38,13 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public void editContact(int id, String name){
+    public void editContact(int id, String name, String phoneNumber, int age, String address){
         for (Contact contact : this.contactList) {
             if (contact.getId() == id){
                 contact.setName(name);
+                contact.setPhoneNumber(phoneNumber);
+                contact.setAge(age);
+                contact.setAddress(address);
                 return;
             }
         }
@@ -72,13 +75,13 @@ public class ContactServiceImpl implements ContactService {
     @Override
     public void initContact() {
         contactList.add(new Contact(++idContact, "Olga", "1234567", 25, "Address Olga Kyiv"));
-        contactList.add(new Contact(++idContact, "Tanya", "45-12-367", 22, "Address Tanya"));
-        contactList.add(new Contact(++idContact, "Natasha", "1234567", 32, "Address Natasha"));
+        contactList.add(new Contact(++idContact, "Tanya", "45-12-36-7", 22, "Address Tanya"));
+        contactList.add(new Contact(++idContact, "Natasha", "12 34 567", 32, "Address Natasha"));
         contactList.add(new Contact(++idContact, "Olga", "56-88-908", 33, "Address Olga Dnepr"));
-        contactList.add(new Contact(++idContact, "Oleg", "+038-093-123-45-67", 88, "Address Oleg"));
+        contactList.add(new Contact(++idContact, "Oleg", "+38-093-123-45-67", 88, "Address Oleg"));
         contactList.add(new Contact(++idContact, "Yana", "067 369 98 908", 46, "Address Yana"));
         contactList.add(new Contact(++idContact, "Anna", "0911234567", 43, "Address Anna"));
-        contactList.add(new Contact(++idContact, "Sveta", "756-88-908", 63, "Address Sveta"));
+        contactList.add(new Contact(++idContact, "Sveta", "756-88-90", 63, "Address Sveta"));
     }
 }
 
