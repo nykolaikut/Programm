@@ -3,25 +3,25 @@ package com.kuteinykov.programm.services.impl;
 import com.kuteinykov.programm.model.Contact;
 import com.kuteinykov.programm.services.ContactService;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class ContactServiceImpl implements ContactService {
 
-    private List<Contact> contactList = new ArrayList<>();
-    private List<Contact> searchContactList = new ArrayList<>();
+    private HashMap<Long, Contact> contactList = new HashMap<>();
+    private HashMap<Long, Contact> searchContactList = new HashMap<>();
     private long idContact = 0;
 
     @Override
     public void createContact(String name, String phoneNumber, int age, String address) {
-        this.contactList.add(new Contact(++idContact, name, phoneNumber, age, address));
+        idContact++;
+        contactList.put(idContact, new Contact(idContact, name, phoneNumber, age, address));
     }
 
     @Override
-    public void deleteContact(int id) {
-        if (contactList.removeIf(x -> x.getId() == id)) {
-            System.out.println("Contact is deleted " + id);
-        }
+    public void deleteContact(long id) {
+        contactList.remove(id);
     }
 
     @Override
@@ -29,17 +29,16 @@ public class ContactServiceImpl implements ContactService {
         displayListContact(contactList);
     }
 
-    private <T> void displayListContact(List<T> list){
+    private <T> void displayListContact(HashMap<Long, Contact> list){
         System.out.println();
-        for (T contact: list ) {
-            System.out.print(contact);
-            System.out.println();
+        for (Contact contact : list.values()) {
+            System.out.println(contact);
         }
     }
 
     @Override
-    public void editContact(int id, String name, String phoneNumber, int age, String address){
-        for (Contact contact : this.contactList) {
+    public void editContact(long id, String name, String phoneNumber, int age, String address){
+        for (Contact contact : contactList.values()) {
             if (contact.getId() == id){
                 contact.setName(name);
                 contact.setPhoneNumber(phoneNumber);
@@ -57,10 +56,10 @@ public class ContactServiceImpl implements ContactService {
 
         int lengthSearch = name.length();
 
-        for (Contact contact : this.contactList) {
+        for (Contact contact : contactList.values()) {
             if (contact.getName().trim().length() >= lengthSearch){
                 if (contact.getName().trim().toUpperCase().substring(0,lengthSearch).equals(name.toUpperCase())) {
-                    searchContactList.add(new Contact(contact.getId(), contact.getName(),
+                    searchContactList.put(contact.getId(), new Contact(contact.getId(), contact.getName(),
                             contact.getPhoneNumber(), contact.getAge(),
                             contact.getAddress()));
                 }
@@ -74,14 +73,22 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public void initContact() {
-        contactList.add(new Contact(++idContact, "Olga", "1234567", 25, "Address Olga Kyiv"));
-        contactList.add(new Contact(++idContact, "Tanya", "45-12-36-7", 22, "Address Tanya"));
-        contactList.add(new Contact(++idContact, "Natasha", "12 34 567", 32, "Address Natasha"));
-        contactList.add(new Contact(++idContact, "Olga", "56-88-908", 33, "Address Olga Dnepr"));
-        contactList.add(new Contact(++idContact, "Oleg", "+38-093-123-45-67", 88, "Address Oleg"));
-        contactList.add(new Contact(++idContact, "Yana", "067 369 98 908", 46, "Address Yana"));
-        contactList.add(new Contact(++idContact, "Anna", "0911234567", 43, "Address Anna"));
-        contactList.add(new Contact(++idContact, "Sveta", "756-88-90", 63, "Address Sveta"));
+        idContact++;
+        contactList.put(idContact, new Contact(idContact, "Olga", "1234567", 25, "Address Olga Kyiv"));
+        idContact++;
+        contactList.put(idContact, new Contact(idContact, "Tanya", "45-12-36-7", 22, "Address Tanya"));
+        idContact++;
+        contactList.put(idContact, new Contact(idContact, "Natasha", "12 34 567", 32, "Address Natasha"));
+        idContact++;
+        contactList.put(idContact, new Contact(idContact, "Olga", "56-88-908", 33, "Address Olga Dnepr"));
+        idContact++;
+        contactList.put(idContact, new Contact(idContact, "Oleg", "+38-093-123-45-67", 88, "Address Oleg"));
+        idContact++;
+        contactList.put(idContact, new Contact(idContact, "Yana", "067 369 98 908", 46, "Address Yana"));
+        idContact++;
+        contactList.put(idContact, new Contact(idContact, "Anna", "0911234567", 43, "Address Anna"));
+        idContact++;
+        contactList.put(idContact, new Contact(idContact, "Sveta", "756-88-90", 63, "Address Sveta"));
     }
 }
 
