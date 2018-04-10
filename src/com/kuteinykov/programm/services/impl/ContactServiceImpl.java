@@ -4,8 +4,6 @@ import com.kuteinykov.programm.model.Contact;
 import com.kuteinykov.programm.services.ContactService;
 
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 public class ContactServiceImpl implements ContactService {
 
@@ -58,7 +56,8 @@ public class ContactServiceImpl implements ContactService {
 
         for (Contact contact : contactList.values()) {
             if (contact.getName().trim().length() >= lengthSearch){
-                if (contact.getName().trim().toUpperCase().substring(0,lengthSearch).equals(name.toUpperCase())) {
+//                if (contact.getName().trim().toUpperCase().substring(0,lengthSearch).equals(name.toUpperCase())) {
+                if (contact.getName().substring(0,lengthSearch).compareToIgnoreCase(name) == 0 ) {
                     searchContactList.put(contact.getId(), new Contact(contact.getId(), contact.getName(),
                             contact.getPhoneNumber(), contact.getAge(),
                             contact.getAddress()));

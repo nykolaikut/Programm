@@ -136,12 +136,10 @@ public class CmdLineServiceImpl implements CmdLineService {
         String phoneNumber = br.readLine();
         phoneNumber = phoneNumber.trim();
         if(!checkInput( phoneNumber, SYMBOLS_PHONE_NUMBER)) {
-//            System.out.println("Wrong input! " + SYMBOLS_PHONE_NUMBER);
             return "";
         }
         if(countDigits(phoneNumber, DIGITS) < MIN_NUMBER_OF_DIGITS
                 || countDigits(phoneNumber, DIGITS) > MAX_NUMBER_OF_DIGITS  ){
-//            System.out.println("Wrong input!");
             return "";
         }
         return phoneNumber;
@@ -160,12 +158,10 @@ public class CmdLineServiceImpl implements CmdLineService {
             number = new Integer(line);
         }
         catch (NumberFormatException e) {
-//            System.out.println("Wrong Input!");
             return -1;
         }
         return number;
     }
-
 
     private String readAddress() throws IOException {
         System.out.println("Enter address");
