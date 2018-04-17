@@ -118,13 +118,13 @@ public class CmdLineServiceImpl implements CmdLineService {
     }
 
     private void initContact(){
-        this.contactService.initContact();
+        contactService.initContact();
     }
 
     private void  findContact() throws IOException {
         String name = readName();
         if (!name.isEmpty())
-            this.contactService.findContact(name);
+            contactService.findContact(name);
         else System.out.println("Wrong input!");
     }
 
