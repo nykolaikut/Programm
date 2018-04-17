@@ -10,7 +10,6 @@ public class App {
     public static void main(String[] args) throws IOException {
 
         CmdLineService cmd = new CmdLineServiceImpl(new ContactServiceImpl());
-        
         cmd.runMenu();
 
     }
