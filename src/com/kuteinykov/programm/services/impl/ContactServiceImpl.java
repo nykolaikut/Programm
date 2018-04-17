@@ -7,6 +7,10 @@ import java.util.HashMap;
 
 public class ContactServiceImpl implements ContactService {
 
+    /**
+     * Реализация ContactService которая использует Map для хранения данных.
+     */
+
     private HashMap<Long, Contact> contactList = new HashMap<>();
     private HashMap<Long, Contact> searchContactList = new HashMap<>();
     private long idContact = 0;

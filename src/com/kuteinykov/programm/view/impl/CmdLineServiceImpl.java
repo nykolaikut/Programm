@@ -10,6 +10,10 @@ import java.io.InputStreamReader;
 
 public class CmdLineServiceImpl implements CmdLineService {
 
+    /**
+     * Сервис реализующий логику предоставления и считывания информации в/из консоль.
+     */
+
     private static final String DIGITS = "0987654321";
     private static final String SYMBOLS_PHONE_NUMBER = "+- 0987654321";
     private static final int MIN_NUMBER_OF_DIGITS = 7;
