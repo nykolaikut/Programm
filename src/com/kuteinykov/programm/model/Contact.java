@@ -53,12 +53,13 @@ public class Contact {
     }
     @Override
     public String toString() {
-        return "Contact{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", age=" + age +
-                ", address='" + address + '\'' +
-                '}';
+//        return "Contact{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", phoneNumber='" + phoneNumber + '\'' +
+//                ", age=" + age +
+//                ", address='" + address + '\'' +
+//                '}';
+        return id + ":" + name + ":" + phoneNumber + ":" + age + ":" + address;
      }
 }

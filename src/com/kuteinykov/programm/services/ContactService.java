@@ -2,7 +2,6 @@ package com.kuteinykov.programm.services;
 
 public interface ContactService {
 
-    void initContact();
     void createContact(String name, String phoneNumber, int age, String address);
     void deleteContact(long id);
     void displayContact();

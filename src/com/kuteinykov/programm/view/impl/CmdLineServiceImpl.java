@@ -1,7 +1,9 @@
 package com.kuteinykov.programm.view.impl;
 
 import com.kuteinykov.programm.services.ContactService;
+import com.kuteinykov.programm.utils.ValidationUtil;
 import com.kuteinykov.programm.view.CmdLineService;
+import com.sun.xml.internal.ws.developer.MemberSubmissionAddressing;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,17 +23,16 @@ public class CmdLineServiceImpl implements CmdLineService {
     private static final int MAX_AGE = 100;
 
     private ContactService contactService;
-    private BufferedReader br =
-            new BufferedReader(new InputStreamReader(System.in));
+    private BufferedReader br;
 
     public CmdLineServiceImpl(ContactService contactService) {
         this.contactService = contactService;
+        this.br = new BufferedReader(new InputStreamReader(System.in));
     }
 
     @Override
     public void runMenu() throws IOException {
         boolean isRunning = true;
-        initContact();
         while (isRunning) {
             showMenu();
             String line = br.readLine();
@@ -82,7 +83,7 @@ public class CmdLineServiceImpl implements CmdLineService {
         String address = readAddress();
 
         if (!name.isEmpty() && !phoneNumber.isEmpty() && age > 0 && age <= MAX_AGE ) {
-            this.contactService.createContact(name, phoneNumber, age, address);
+            contactService.createContact(name, phoneNumber, age, address);
         } else {
             System.out.println("Wrong input!");
         }
@@ -92,12 +93,12 @@ public class CmdLineServiceImpl implements CmdLineService {
         System.out.println("Enter ID");
         int id = readInt();
         if(id > 0) {
-            this.contactService.deleteContact(id);
+            contactService.deleteContact(id);
         } else System.out.println("Wrong input!");
     }
 
     private void displayContact(){
-       this.contactService.displayContact();
+       contactService.displayContact();
 
     }
     private void editContact() throws IOException {
@@ -110,15 +111,11 @@ public class CmdLineServiceImpl implements CmdLineService {
             String address = readAddress();
 
             if (!name.isEmpty() && !phoneNumber.isEmpty() && age > 0 && age <= MAX_AGE ) {
-                this.contactService.editContact(id, name, phoneNumber, age, address);
+                contactService.editContact(id, name, phoneNumber, age, address);
             } else {
                 System.out.println("Wrong input!");
             }
         }
-    }
-
-    private void initContact(){
-        contactService.initContact();
     }
 
     private void  findContact() throws IOException {
@@ -139,11 +136,11 @@ public class CmdLineServiceImpl implements CmdLineService {
         System.out.println("Enter phoneNumber");
         String phoneNumber = br.readLine();
         phoneNumber = phoneNumber.trim();
-        if(!checkInput( phoneNumber, SYMBOLS_PHONE_NUMBER)) {
+        if(!ValidationUtil.checkInput( phoneNumber, SYMBOLS_PHONE_NUMBER)) {
             return "";
         }
-        if(countDigits(phoneNumber, DIGITS) < MIN_NUMBER_OF_DIGITS
-                || countDigits(phoneNumber, DIGITS) > MAX_NUMBER_OF_DIGITS  ){
+        if(ValidationUtil.countDigits( phoneNumber, DIGITS) < MIN_NUMBER_OF_DIGITS
+                || ValidationUtil.countDigits( phoneNumber, DIGITS) > MAX_NUMBER_OF_DIGITS){
             return "";
         }
         return phoneNumber;
@@ -159,41 +156,16 @@ public class CmdLineServiceImpl implements CmdLineService {
         try {
             System.out.println("Input number!");
             String line = br.readLine();
-            number = new Integer(line);
+            return ValidationUtil.checkNumber(line);
         }
         catch (NumberFormatException e) {
             return -1;
         }
-        return number;
     }
 
     private String readAddress() throws IOException {
         System.out.println("Enter address");
         String address = br.readLine();
         return address.trim();
-    }
-
-    private boolean checkInput(String number, String digits){
-
-        if(number.isEmpty()) return false;
-
-        for (int i = 0; i < number.length(); i++){
-            if (!digits.contains(number.substring(i,(i+1))))
-                return false;
-        }
-        return true;
-    }
-
-    private int countDigits(String number, String digits){
-
-        if(number.isEmpty()) return 0;
-
-        String digitsPhonNumber = "";
-
-        for (int i = 0; i < number.length(); i++){
-            if (digits.contains(number.substring(i,(i+1))))
-                digitsPhonNumber += number.substring(i,(i+1));
-        }
-        return Long.toString(Long.valueOf(digitsPhonNumber)).length();
     }
 }

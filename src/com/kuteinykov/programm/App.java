@@ -29,7 +29,8 @@ public class App {
 
         //Создание сервисов слоя представления. Самые высокоуровневые сервиса которые управляют сервисами бизнесс логики.
         //Слой отвечающий за графический интерфейс и удобство работы Пользователя с программой
-        CmdLineService cmd = new CmdLineServiceImpl(new ContactServiceImpl());
+//        CmdLineService cmd = new CmdLineServiceImpl(new ContactServiceImpl());
+        CmdLineService cmd = new CmdLineServiceImpl(new FSContactServiceImpl(contactDao));
 
         //Непосредственный запуск графического интерфейся и программы
         cmd.runMenu();

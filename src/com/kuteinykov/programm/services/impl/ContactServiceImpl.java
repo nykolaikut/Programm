@@ -11,9 +11,15 @@ public class ContactServiceImpl implements ContactService {
      * Реализация ContactService которая использует Map для хранения данных.
      */
 
-    private HashMap<Long, Contact> contactList = new HashMap<>();
+    private HashMap<Long, Contact> contactList;
     private HashMap<Long, Contact> searchContactList = new HashMap<>();
     private long idContact = 0;
+
+
+    public ContactServiceImpl() {
+        this.contactList = new HashMap<>();
+        initContact();
+    }
 
     @Override
     public void createContact(String name, String phoneNumber, int age, String address) {
@@ -59,8 +65,7 @@ public class ContactServiceImpl implements ContactService {
         int lengthSearch = name.length();
 
         for (Contact contact : contactList.values()) {
-            if (contact.getName().trim().length() >= lengthSearch){
-//                if (contact.getName().trim().toUpperCase().substring(0,lengthSearch).equals(name.toUpperCase())) {
+            if (contact.getName().length() >= lengthSearch){
                 if (contact.getName().substring(0,lengthSearch).compareToIgnoreCase(name) == 0 ) {
                     searchContactList.put(contact.getId(), new Contact(contact.getId(), contact.getName(),
                             contact.getPhoneNumber(), contact.getAge(),
@@ -74,8 +79,7 @@ public class ContactServiceImpl implements ContactService {
         }
     }
 
-    @Override
-    public void initContact() {
+    private void initContact() {
         idContact++;
         contactList.put(idContact, new Contact(idContact, "Olga", "1234567", 25, "Address Olga Kyiv"));
         idContact++;
@@ -94,4 +98,3 @@ public class ContactServiceImpl implements ContactService {
         contactList.put(idContact, new Contact(idContact, "Sveta", "756-88-90", 63, "Address Sveta"));
     }
 }
-
