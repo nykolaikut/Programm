@@ -21,30 +21,26 @@ public class ContactServiceImpl implements ContactService {
         initContact();
     }
 
-    @Override
     public void createContact(String name, String phoneNumber, int age, String address) {
         idContact++;
         contactList.put(idContact, new Contact(idContact, name, phoneNumber, age, address));
     }
 
-    @Override
     public void deleteContact(long id) {
         contactList.remove(id);
     }
 
-    @Override
     public void displayContact() {
         displayListContact(contactList);
     }
 
-    private <T> void displayListContact(HashMap<Long, Contact> list){
+    private void displayListContact(HashMap<Long, Contact> list){
         System.out.println();
         for (Contact contact : list.values()) {
             System.out.println(contact);
         }
     }
 
-    @Override
     public void editContact(long id, String name, String phoneNumber, int age, String address){
         for (Contact contact : contactList.values()) {
             if (contact.getId() == id){
@@ -57,7 +53,6 @@ public class ContactServiceImpl implements ContactService {
         }
     }
 
-    @Override
     public void findContact(String name){
 
         if (!searchContactList.isEmpty()) searchContactList.clear();

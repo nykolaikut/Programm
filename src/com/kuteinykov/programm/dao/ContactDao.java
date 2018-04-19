@@ -8,8 +8,9 @@ public interface ContactDao {
      * (файловая система, БД и т.д.)
      */
 
-    void saveContact(Contact contact);
-//    void removeContact();
+    void saveContact(String name, String phoneNumber, int age, String address);
+    void deleteContact(long id);
     void displayContact();
     void findContact(String name);
+    void editContact(Contact contact);
 }

@@ -21,6 +21,8 @@ public class App {
 
         //Создание самого нижнего слоя сервисов  - слой DAO
         // который работает со средствами долгосрочноого хранения информации.
+//        ContactDao contactDao = new DBContactDao();
+
         ContactDao contactDao = new FileSystemContactDaoImpl();
 
         //Создание слоя срвисов, которые хранят бизнесс логику. Логику управления моделями и т.д.
@@ -29,13 +31,11 @@ public class App {
 
         //Создание сервисов слоя представления. Самые высокоуровневые сервиса которые управляют сервисами бизнесс логики.
         //Слой отвечающий за графический интерфейс и удобство работы Пользователя с программой
+
 //        CmdLineService cmd = new CmdLineServiceImpl(new ContactServiceImpl());
-        CmdLineService cmd = new CmdLineServiceImpl(new FSContactServiceImpl(contactDao));
+        CmdLineService cmd = new CmdLineServiceImpl(contactService);
 
         //Непосредственный запуск графического интерфейся и программы
-
         cmd.runMenu();
-
     }
 }
-
