@@ -33,7 +33,7 @@ public class App {
         CmdLineService cmd = new CmdLineServiceImpl(new FSContactServiceImpl(contactDao));
 
         //Непосредственный запуск графического интерфейся и программы
-        
+
         cmd.runMenu();
 
     }
