@@ -21,8 +21,8 @@ public class App {
 
         //Создание самого нижнего слоя сервисов  - слой DAO
         // который работает со средствами долгосрочноого хранения информации.
-//        ContactDao contactDao = new DBContactDao();
 
+//        ContactDao contactDao = new DBContactDao();
         ContactDao contactDao = new FileSystemContactDaoImpl();
 
         //Создание слоя срвисов, которые хранят бизнесс логику. Логику управления моделями и т.д.
