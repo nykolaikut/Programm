@@ -1,6 +1,7 @@
 package com.kuteinykov.programm;
 
 import com.kuteinykov.programm.dao.ContactDao;
+import com.kuteinykov.programm.dao.impl.DBContactDao;
 import com.kuteinykov.programm.dao.impl.FileSystemContactDaoImpl;
 import com.kuteinykov.programm.services.ContactService;
 import com.kuteinykov.programm.services.impl.ContactServiceImpl;
@@ -21,9 +22,8 @@ public class App {
 
         //Создание самого нижнего слоя сервисов  - слой DAO
         // который работает со средствами долгосрочноого хранения информации.
-
-//        ContactDao contactDao = new DBContactDao();
-        ContactDao contactDao = new FileSystemContactDaoImpl();
+        ContactDao contactDao = new DBContactDao();
+//        ContactDao contactDao = new FileSystemContactDaoImpl();
 
         //Создание слоя срвисов, которые хранят бизнесс логику. Логику управления моделями и т.д.
         //Обычно эти сервисы используют слой DAO для долгосрочного хранения данных.
@@ -31,7 +31,6 @@ public class App {
 
         //Создание сервисов слоя представления. Самые высокоуровневые сервиса которые управляют сервисами бизнесс логики.
         //Слой отвечающий за графический интерфейс и удобство работы Пользователя с программой
-
 //        CmdLineService cmd = new CmdLineServiceImpl(new ContactServiceImpl());
         CmdLineService cmd = new CmdLineServiceImpl(contactService);
 
