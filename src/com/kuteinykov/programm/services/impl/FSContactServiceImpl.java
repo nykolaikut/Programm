@@ -4,6 +4,8 @@ import com.kuteinykov.programm.dao.ContactDao;
 import com.kuteinykov.programm.model.Contact;
 import com.kuteinykov.programm.services.ContactService;
 
+import java.util.HashMap;
+
 public class FSContactServiceImpl implements ContactService {
 
     /**
@@ -34,5 +36,13 @@ public class FSContactServiceImpl implements ContactService {
 
     public void findContact(String name){
         contactDao.findContact(name);
+    }
+
+    private void displayListContact(HashMap<Long, Contact> list) {
+        System.out.println();
+        for (Contact contact : list.values()) {
+            System.out.println(contact);
+        }
+        System.out.println();
     }
  }

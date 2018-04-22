@@ -114,7 +114,7 @@ public class CmdLineServiceImpl implements CmdLineService {
             } else {
                 System.out.println("Wrong input!");
             }
-        }
+        } else System.out.println("Wrong input!");
     }
 
     private void  findContact() throws IOException {

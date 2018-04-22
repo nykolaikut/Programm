@@ -134,9 +134,9 @@ public class FileSystemContactDaoImpl implements ContactDao{
         }
     }
 
-    private void searchContact(String nameSearch, String line){
+    private void searchContact(String searchName, String line){
 
-        int lengthSearch = nameSearch.length();
+        int lengthSearch = searchName.length();
         String[] str = line.split(":");
 
         long id = Long.valueOf(str[0]);
@@ -146,7 +146,7 @@ public class FileSystemContactDaoImpl implements ContactDao{
         String address = str[4];
 
         if (name.length() >= lengthSearch){
-            if (name.substring(0,lengthSearch).compareToIgnoreCase(nameSearch) == 0 ) {
+            if (name.substring(0,lengthSearch).compareToIgnoreCase(searchName) == 0 ) {
                 searchContactList.put(id, new Contact(id, name, phoneNumber, age,address));
             }
         }
