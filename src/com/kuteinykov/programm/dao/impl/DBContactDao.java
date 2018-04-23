@@ -38,7 +38,7 @@ public class DBContactDao implements ContactDao {
         try (Connection connection = DriverManager
                 .getConnection(DB_URL, USER, PASSWORD);
             PreparedStatement st =
-                connection.prepareStatement("INSERT INTO " + TABLE_NAME+ " VALUES( default, ?, ?, ?, ?);")){
+                connection.prepareStatement("INSERT INTO " + TABLE_NAME + " VALUES( default, ?, ?, ?, ?);")){
 
             st.setString(1, name);
             st.setString(2, phoneNumber);
@@ -78,7 +78,7 @@ public class DBContactDao implements ContactDao {
 
         int lengthSearch = searchName.length();
         String query = "SELECT * FROM " + TABLE_NAME +
-                " WHERE UPPER(SUBSTR(NAME,1," + lengthSearch + ")) =  '" + searchName.toUpperCase()+ "';";
+                " WHERE UPPER(SUBSTR(NAME,1," + lengthSearch + ")) =  '" + searchName.toUpperCase() + "';";
 
         selectContact(query);
         displayListContact(searchContactList);
