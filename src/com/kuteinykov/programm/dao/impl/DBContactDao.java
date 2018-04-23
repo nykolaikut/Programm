@@ -10,6 +10,8 @@ public class DBContactDao implements ContactDao {
 
     private static final String DB_URL = "jdbc:h2:tcp://localhost/~/Programm";
     private static final String TABLE_NAME = "CLIENT";
+    private static final String USER = "Test";
+    private static final String PASSWORD = "";
     private HashMap<Long, Contact> searchContactList = new HashMap<>();
 
     public DBContactDao(){
@@ -19,7 +21,7 @@ public class DBContactDao implements ContactDao {
             e.printStackTrace();
         }
         try (Connection connection = DriverManager
-                .getConnection(DB_URL, "Test", "");
+                .getConnection(DB_URL, USER, PASSWORD);
              Statement st = connection.createStatement())
         {
              st.execute("CREATE TABLE IF NOT EXISTS " +TABLE_NAME +
@@ -34,7 +36,7 @@ public class DBContactDao implements ContactDao {
 
     public void saveContact(String name, String phoneNumber, int age, String address) {
         try (Connection connection = DriverManager
-                .getConnection(DB_URL, "Test", "");
+                .getConnection(DB_URL, USER, PASSWORD);
             PreparedStatement st =
                 connection.prepareStatement("INSERT INTO " + TABLE_NAME+ " VALUES( default, ?, ?, ?, ?);")){
 
@@ -51,7 +53,7 @@ public class DBContactDao implements ContactDao {
 
     public void deleteContact(long id){
         try (Connection connection = DriverManager
-                .getConnection(DB_URL, "Test", "");
+                .getConnection(DB_URL, USER, PASSWORD);
             PreparedStatement st =
                 connection.prepareStatement("DELETE FROM " + TABLE_NAME + " WHERE ID = ?;")){
 
@@ -84,7 +86,7 @@ public class DBContactDao implements ContactDao {
 
     private void selectContact(String query){
         try (Connection connection = DriverManager
-                .getConnection(DB_URL, "Test", "");
+                .getConnection(DB_URL, USER, PASSWORD);
              PreparedStatement st =
                      connection.prepareStatement(query)){
 
@@ -105,7 +107,7 @@ public class DBContactDao implements ContactDao {
 
     public void editContact(Contact contact){
         try (Connection connection = DriverManager
-                .getConnection(DB_URL, "Test", "");
+                .getConnection(DB_URL, USER, PASSWORD);
             PreparedStatement st =
                 connection.prepareStatement(
                    "UPDATE " + TABLE_NAME +" SET NAME = ?, PHONENUMBER = ?, AGE = ?, ADDRESS = ? WHERE ID = ?;")){
