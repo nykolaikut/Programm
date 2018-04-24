@@ -98,7 +98,7 @@ public class DBContactDao implements ContactDao {
                 int age = res.getInt("age");
                 String address = res.getString("address");
 
-                searchContactList.put( id, new Contact(id, name, phoneNumber, age,address));
+                searchContactList.put( id, new Contact(id, name, phoneNumber, age, address));
             }
         } catch (SQLException e) {
             e.printStackTrace();
