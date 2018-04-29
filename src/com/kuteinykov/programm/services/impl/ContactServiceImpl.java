@@ -64,8 +64,7 @@ public class ContactServiceImpl implements ContactService {
             if (contact.getName().length() >= lengthSearch){
                 if (contact.getName().substring(0,lengthSearch).compareToIgnoreCase(name) == 0 ) {
                     searchContactList.put(contact.getId(), new Contact(contact.getId(), contact.getName(),
-                            contact.getPhoneNumber(), contact.getAge(),
-                            contact.getAddress()));
+                        contact.getPhoneNumber(), contact.getAge(), contact.getAddress()));
                 }
             }
         }
