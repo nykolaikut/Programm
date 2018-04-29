@@ -4,7 +4,6 @@ import com.kuteinykov.programm.dao.ContactDao;
 import com.kuteinykov.programm.model.Contact;
 import com.kuteinykov.programm.services.ContactService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FSContactServiceImpl implements ContactService {
