@@ -2,6 +2,8 @@ package com.kuteinykov.programm.dao;
 
 import com.kuteinykov.programm.model.Contact;
 
+import java.util.List;
+
 public interface ContactDao {
     /**
      * Интерфейс описывающий основное поведение работы с различными вариантами долгострочного хранения данных.
@@ -10,7 +12,7 @@ public interface ContactDao {
 
     void saveContact(String name, String phoneNumber, int age, String address);
     void deleteContact(long id);
-    void displayContact();
-    void findContact(String name);
+    List<Contact> displayContact();
+    List<Contact> findContact(String name);
     void editContact(Contact contact);
 }

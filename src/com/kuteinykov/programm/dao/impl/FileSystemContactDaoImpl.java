@@ -4,7 +4,8 @@ import com.kuteinykov.programm.dao.ContactDao;
 import com.kuteinykov.programm.model.Contact;
 
 import java.io.*;
-import java.util.HashMap;
+import java.util.ArrayList;
+
 
 public class FileSystemContactDaoImpl implements ContactDao{
 
@@ -13,8 +14,9 @@ public class FileSystemContactDaoImpl implements ContactDao{
      */
 
     private static final File FILE = new File("data.txt");
-    private HashMap<Long, Contact> searchContactList = new HashMap<>();
+    private ArrayList<Contact> contactList = new ArrayList<Contact>();
     private long idContact = 0;
+    private boolean aBoolean;
 
     public FileSystemContactDaoImpl() {
         if (!FILE.exists()) {
@@ -51,26 +53,34 @@ public class FileSystemContactDaoImpl implements ContactDao{
         }
     }
 
-    public void displayContact() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE))){
-            String line;
-            while ((line = reader.readLine()) != null) System.out.println(line);
-            System.out.println();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public ArrayList<Contact> displayContact() {
+        if (!contactList.isEmpty()) contactList.clear();
+
+        readFile();
+        return contactList;
     }
 
     public void deleteContact(long id) {
 
-        if (!searchContactList.isEmpty()) searchContactList.clear();
+        if (!contactList.isEmpty()) contactList.clear();
 
         readFile();
-        searchContactList.remove(id);
+
+        int index = findIndexOfElement(id);
+        if (index > -1 ) contactList.remove(index);
 
         if (FILE.delete()) {
             writeCollectionToFile();
         }
+    }
+
+    private int findIndexOfElement(long id){
+        for (int i = 0; i < contactList.size(); i++ ) {
+            if (contactList.get(i).getId() == id) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private void readFile(){
@@ -84,7 +94,7 @@ public class FileSystemContactDaoImpl implements ContactDao{
 
     private void writeCollectionToFile(){
         try(PrintStream printStream = new PrintStream(new FileOutputStream(FILE, true), true)) {
-            for (Contact contact: searchContactList.values()) {
+            for (Contact contact: contactList) {
                 printStream.println(contact);
             }
         } catch (FileNotFoundException e) {
@@ -101,25 +111,25 @@ public class FileSystemContactDaoImpl implements ContactDao{
         int age = Integer.valueOf(str[3]);
         String address = str[4];
 
-        searchContactList.put(id, new Contact(id, name, phoneNumber, age,address));
+        contactList.add( new Contact(id, name, phoneNumber, age,address));
     }
 
     public void editContact(Contact newContact){
-        if (!searchContactList.isEmpty()) searchContactList.clear();
+        if (!contactList.isEmpty()) contactList.clear();
 
         readFile();
 
-        if (searchContactList.containsKey(newContact.getId()))
-            searchContactList.put(newContact.getId(), newContact);
+        int index = findIndexOfElement(newContact.getId());
+        if (index > -1 ) contactList.set(index, newContact);
 
         if (FILE.delete()) {
             writeCollectionToFile();
         }
     }
 
-    public void findContact(String name){
+    public ArrayList<Contact> findContact(String name){
 
-        if (!searchContactList.isEmpty()) searchContactList.clear();
+        if (!contactList.isEmpty()) contactList.clear();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE))){
             String line;
@@ -128,10 +138,7 @@ public class FileSystemContactDaoImpl implements ContactDao{
             e.printStackTrace();
         }
 
-        if (!searchContactList.isEmpty()) {
-            System.out.printf("%20s","Search results");
-            displayListContact(searchContactList);
-        }
+        return contactList;
     }
 
     private void searchContact(String searchName, String line){
@@ -147,43 +154,35 @@ public class FileSystemContactDaoImpl implements ContactDao{
 
         if (name.length() >= lengthSearch){
             if (name.substring(0,lengthSearch).compareToIgnoreCase(searchName) == 0 ) {
-                searchContactList.put(id, new Contact(id, name, phoneNumber, age,address));
+                contactList.add( new Contact(id, name, phoneNumber, age,address));
             }
         }
    }
 
-   private void displayListContact(HashMap<Long, Contact> list) {
-       System.out.println();
-       for (Contact contact : list.values()) {
-           System.out.println(contact);
-       }
-       System.out.println();
-   }
-
    private void initContact() {
        idContact++;
-       searchContactList.put(idContact, new Contact(idContact,
+       contactList.add( new Contact(idContact,
                "Olga", "1234567", 25, "Address Olga Kyiv"));
        idContact++;
-       searchContactList.put(idContact, new Contact(idContact,
+       contactList.add( new Contact(idContact,
                "Tanya", "45-12-36-7", 22, "Address Tanya"));
        idContact++;
-       searchContactList.put(idContact, new Contact(idContact,
+       contactList.add( new Contact(idContact,
                "Natasha", "12 34 567", 32, "Address Natasha"));
        idContact++;
-       searchContactList.put(idContact, new Contact(idContact,
+       contactList.add( new Contact(idContact,
                "Olga", "56-88-908", 33, "Address Olga Dnepr"));
        idContact++;
-       searchContactList.put(idContact, new Contact(idContact,
+       contactList.add( new Contact(idContact,
                "Oleg", "+38-093-123-45-67", 88, "Address Oleg"));
        idContact++;
-       searchContactList.put(idContact, new Contact(idContact,
+       contactList.add( new Contact(idContact,
                "Yana", "067 369 98 908", 46, "Address Yana"));
        idContact++;
-       searchContactList.put(idContact, new Contact(idContact,
+       contactList.add( new Contact(idContact,
                "Anna", "0911234567", 43, "Address Anna"));
        idContact++;
-       searchContactList.put(idContact, new Contact(idContact,
+       contactList.add( new Contact(idContact,
                "Sveta", "756-88-90", 63, "Address Sveta"));
    }
 }

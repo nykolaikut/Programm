@@ -31,10 +31,11 @@ public class ContactServiceImpl implements ContactService {
     }
 
     public void displayContact() {
-        displayListContact(contactList);
+        displayListContact(contactList, "Contact list");
     }
 
-    private void displayListContact(HashMap<Long, Contact> list){
+    private void displayListContact(HashMap<Long, Contact> list, String title){
+        System.out.printf("%20s", title);
         System.out.println();
         for (Contact contact : list.values()) {
             System.out.println(contact);
@@ -69,8 +70,7 @@ public class ContactServiceImpl implements ContactService {
             }
         }
         if (!searchContactList.isEmpty()) {
-            System.out.printf("%20s","Search results");
-            displayListContact(searchContactList);
+            displayListContact(searchContactList, "Search results");
         }
     }
 

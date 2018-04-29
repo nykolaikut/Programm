@@ -4,19 +4,20 @@ import com.kuteinykov.programm.dao.ContactDao;
 import com.kuteinykov.programm.model.Contact;
 
 import java.sql.*;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class DBContactDao implements ContactDao {
 
+    private static final String DB_DRIVE = "org.h2.Driver";
     private static final String DB_URL = "jdbc:h2:tcp://localhost/~/Programm";
     private static final String TABLE_NAME = "CLIENT";
     private static final String USER_NAME = "Test";
     private static final String PASSWORD = "";
-    private HashMap<Long, Contact> searchContactList = new HashMap<>();
+    private ArrayList<Contact> contactList = new ArrayList<Contact>();
 
     public DBContactDao(){
         try {
-            Class.forName("org.h2.Driver");
+            Class.forName(DB_DRIVE);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -24,7 +25,7 @@ public class DBContactDao implements ContactDao {
                 .getConnection(DB_URL, USER_NAME, PASSWORD);
              Statement st = connection.createStatement())
         {
-             st.execute("CREATE TABLE IF NOT EXISTS " +TABLE_NAME +
+             st.execute("CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
                   "(id BIGINT NOT NULL AUTO_INCREMENT," +
                   " NAME VARCHAR(60) NOT NULL, phoneNumber VARCHAR(20) NOT NULL," +
                   " AGE INT(3) NOT NULL," +
@@ -65,23 +66,23 @@ public class DBContactDao implements ContactDao {
         }
     }
 
-    public void displayContact(){
-        if (!searchContactList.isEmpty()) searchContactList.clear();
+    public ArrayList<Contact> displayContact(){
+        if (!contactList.isEmpty()) contactList.clear();
 
         String query = "SELECT * FROM " + TABLE_NAME + ";";
         selectContact(query);
-        displayListContact(searchContactList);
+        return contactList;
     }
 
-    public void findContact(String searchName){
-        if (!searchContactList.isEmpty()) searchContactList.clear();
+    public ArrayList<Contact> findContact(String searchName){
+        if (!contactList.isEmpty()) contactList.clear();
 
         int lengthSearch = searchName.length();
         String query = "SELECT * FROM " + TABLE_NAME +
                 " WHERE UPPER(SUBSTR(NAME,1," + lengthSearch + ")) =  '" + searchName.toUpperCase() + "';";
 
         selectContact(query);
-        displayListContact(searchContactList);
+        return contactList;
     }
 
     private void selectContact(String query){
@@ -98,7 +99,7 @@ public class DBContactDao implements ContactDao {
                 int age = res.getInt("age");
                 String address = res.getString("address");
 
-                searchContactList.put( id, new Contact(id, name, phoneNumber, age, address));
+                contactList.add(new Contact(id, name, phoneNumber, age, address));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -122,13 +123,5 @@ public class DBContactDao implements ContactDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    private void displayListContact(HashMap<Long, Contact> list) {
-        System.out.println();
-        for (Contact contact : list.values()) {
-            System.out.println(contact);
-        }
-        System.out.println();
     }
 }

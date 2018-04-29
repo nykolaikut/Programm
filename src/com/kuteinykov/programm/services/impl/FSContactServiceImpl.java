@@ -4,7 +4,8 @@ import com.kuteinykov.programm.dao.ContactDao;
 import com.kuteinykov.programm.model.Contact;
 import com.kuteinykov.programm.services.ContactService;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FSContactServiceImpl implements ContactService {
 
@@ -27,7 +28,7 @@ public class FSContactServiceImpl implements ContactService {
     }
 
     public void displayContact() {
-        contactDao.displayContact();
+        displayContactList(contactDao.displayContact(),"Contact list");
     }
 
     public void editContact(long id, String name, String phoneNumber, int age, String address){
@@ -35,14 +36,15 @@ public class FSContactServiceImpl implements ContactService {
     }
 
     public void findContact(String name){
-        contactDao.findContact(name);
+        displayContactList(contactDao.findContact(name), "Search results");
     }
 
-    private void displayListContact(HashMap<Long, Contact> list) {
+    private void displayContactList(List<Contact> list, String title) {
+        System.out.printf("%20s", title);
         System.out.println();
-        for (Contact contact : list.values()) {
+        for (Contact contact : list) {
             System.out.println(contact);
         }
         System.out.println();
     }
- }
+}
