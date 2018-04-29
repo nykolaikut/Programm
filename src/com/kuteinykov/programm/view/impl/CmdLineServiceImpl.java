@@ -21,6 +21,7 @@ public class CmdLineServiceImpl implements CmdLineService {
     private static final int MIN_NUMBER_OF_DIGITS = 7;
     private static final int MAX_NUMBER_OF_DIGITS = 12;
     private static final int MAX_AGE = 100;
+    private static final int MIN_AGE = 1;
 
     private ContactService contactService;
     private BufferedReader br;
@@ -81,7 +82,7 @@ public class CmdLineServiceImpl implements CmdLineService {
         int age = readAge();
         String address = readAddress();
 
-        if (!name.isEmpty() && !phoneNumber.isEmpty() && age > 0 && age <= MAX_AGE ) {
+        if (!name.isEmpty() && !phoneNumber.isEmpty() && age >= MIN_AGE && age <= MAX_AGE ) {
             contactService.createContact(name, phoneNumber, age, address);
         } else {
             System.out.println("Wrong input!");
@@ -109,7 +110,7 @@ public class CmdLineServiceImpl implements CmdLineService {
             int age = readAge();
             String address = readAddress();
 
-            if (!name.isEmpty() && !phoneNumber.isEmpty() && age > 0 && age <= MAX_AGE ) {
+            if (!name.isEmpty() && !phoneNumber.isEmpty() && age >= MIN_AGE && age <= MAX_AGE ) {
                 contactService.editContact(id, name, phoneNumber, age, address);
             } else {
                 System.out.println("Wrong input!");
