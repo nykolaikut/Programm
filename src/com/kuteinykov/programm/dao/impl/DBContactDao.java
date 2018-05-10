@@ -20,7 +20,7 @@ public class DBContactDao implements ContactDao {
         try {
             Class.forName(DB_DRIVE);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            DialogManager.showErrorDialog("Error","Class not found " + DB_DRIVE);
         }
         try (Connection connection = DriverManager
                 .getConnection(DB_URL, USER_NAME, PASSWORD);

@@ -43,6 +43,7 @@ public class EditDialogController {
 
     private Contact contact;
     private Object eventSource;
+    private String errorText;
 
     public void setContact(Contact contact){
         if (contact == null) return;
@@ -72,63 +73,97 @@ public class EditDialogController {
     public void actionSave(ActionEvent actionEvent){
         if (!checkValues()) return;
 
-        contact.setName(txtName.getText());
-        contact.setPhoneNumber(txtPhone.getText());
-        contact.setAge(Integer.valueOf(txtAge.getText()));
-        contact.setAddress(txtAddress.getText());
+        contact.setName(txtName.getText().trim());
+        contact.setPhoneNumber(txtPhone.getText().trim());
+        contact.setAge(Integer.valueOf(txtAge.getText().trim()));
+        contact.setAddress(txtAddress.getText().trim());
         actionClose(actionEvent);
     }
 
     private boolean checkValues(){
-        boolean errorIs = false;
-        String errorText = "";
+        errorText = "";
+        boolean checkField = true;
 
-        // check field Name
-        if (!errorIs && txtName.getText().trim().length() == 0) {
-            errorText = errorText + "Field <Name> is empty.";
-            errorIs = true;
+        while(true) {
+
+            // check field Name
+            if (!checkName(txtName.getText().trim())) {
+                checkField = false;
+                break;
+            }
+
+            // check field Phone
+            if (!checkPhone(txtPhone.getText().trim())) {
+                checkField = false;
+                break;
+            }
+
+            // check field Age
+            if (!checkAge(txtAge.getText().trim())) {
+                checkField = false;
+                break;
+            }
+
+            break;
         }
 
-        // check field Phone
-        if (!errorIs && txtPhone.getText().trim().length() == 0) {
-            errorText = errorText + "Field <Phone> is empty.";
-            errorIs = true;
-        }
-        if (!errorIs && (!ValidationUtil.checkInput( txtPhone.getText().trim(), SYMBOLS_PHONE_NUMBER)))
-        {
-            errorText = errorText + " Use only symbols " + SYMBOLS_PHONE_NUMBER + " in field <Phone>.";
-            errorIs = true;
-        } else if (!errorIs &&
-                     (ValidationUtil.countDigits( txtPhone.getText().trim(), DIGITS) < MIN_NUMBER_OF_DIGITS
-                     || ValidationUtil.countDigits( txtPhone.getText().trim(), DIGITS) > MAX_NUMBER_OF_DIGITS ))
-               {
-                   errorText = errorText + "Count digits from " + MIN_NUMBER_OF_DIGITS +
-                        " to " + MAX_NUMBER_OF_DIGITS + " in field <Phone>.";
-                   errorIs = true;
-               }
-
-        // check Age
-        if (!errorIs && txtAge.getText().trim().length() == 0) {
-            errorText = errorText + "Field <Age> is empty.";
-            errorIs = true;
-        }
-        if (!errorIs && (!ValidationUtil.checkInput( txtAge.getText().trim(), DIGITS)))
-        {
-            errorText = errorText + " Use only symbols " + DIGITS + " in field <Age>.";
-            errorIs = true;
-        } else if(!errorIs &&
-                  (Integer.valueOf(txtAge.getText()) < MIN_AGE
-                  || Integer.valueOf(txtAge.getText()) > MAX_AGE))
-               {
-                  errorText = errorText + "The value of field <Age> must be in the range "
-                            + MIN_AGE + " - " + MAX_AGE + ".";
-                  errorIs = true;
-               }
-
-        if (errorIs) {
+        if (!checkField) {
             DialogManager.showErrorDialog("Error", errorText);
             return false;
         }
+        return true;
+    }
+
+    private boolean checkName(String s){
+        if (s.length() == 0) {
+            errorText = "Field <Name> is empty.";
+            return false;
+        }
+        return true;
+    }
+
+    private boolean checkPhone(String s){
+        if (s.length() == 0) {
+            errorText = "Field <Phone> is empty.";
+            return false;
+        }
+
+        if (!ValidationUtil.checkInput( s, SYMBOLS_PHONE_NUMBER))
+        {
+            errorText = "Use only symbols " + SYMBOLS_PHONE_NUMBER + " in field <Phone>.";
+            return false;
+        }
+
+        if (ValidationUtil.countDigits( s, DIGITS) < MIN_NUMBER_OF_DIGITS
+            || ValidationUtil.countDigits( s, DIGITS) > MAX_NUMBER_OF_DIGITS )
+        {
+            errorText = "Count of digits from " + MIN_NUMBER_OF_DIGITS +
+                        " to " + MAX_NUMBER_OF_DIGITS + " in field <Phone>.";
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean checkAge(String s){
+        if (s.length() == 0) {
+            errorText = "Field <Age> is empty.";
+            return false;
+        }
+
+        if (!ValidationUtil.checkInput( s, DIGITS))
+        {
+            errorText =  "Use only symbols " + DIGITS + " in field <Age>.";
+            return false;
+        }
+
+        if(Integer.valueOf(s) < MIN_AGE || Integer.valueOf(s) > MAX_AGE)
+        {
+            errorText = "The value of field <Age> must be in the range "
+                        + MIN_AGE + " - " + MAX_AGE + ".";
+            return false;
+        }
+
         return true;
     }
 }
