@@ -41,10 +41,11 @@ public class FileSystemContactDaoImpl implements ContactDao{
     }
 
     //TODO исправить логику так, что бы файл не пересоздавался а дополнялся.
-    public void saveContact(String name, String phoneNumber, int age, String address) {
+    public void saveContact(Contact newContact) {
 
         idContact++;
-        Contact contact = new Contact(idContact, name, phoneNumber, age, address);
+        Contact contact = new Contact(idContact,newContact.getName(), newContact.getPhoneNumber(),
+                newContact.getAge(), newContact.getAddress());
 
         try(PrintStream printStream = new PrintStream(new FileOutputStream(FILE, true), true)) {
             printStream.println(contact);
@@ -53,7 +54,7 @@ public class FileSystemContactDaoImpl implements ContactDao{
         }
     }
 
-    public ArrayList<Contact> displayContact() {
+    public ArrayList<Contact> selectAllContact() {
         if (!contactList.isEmpty()) contactList.clear();
 
         readFile();

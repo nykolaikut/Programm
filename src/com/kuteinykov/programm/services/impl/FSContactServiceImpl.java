@@ -18,20 +18,20 @@ public class FSContactServiceImpl implements ContactService {
         this.contactDao = contactDao;
     }
 
-    public void createContact(String name, String phoneNumber, int age, String address) {
-        contactDao.saveContact(name, phoneNumber, age, address);
+    public void createContact(Contact contact) {
+        contactDao.saveContact(contact);
     }
 
     public void deleteContact(long id) {
         contactDao.deleteContact(id);
     }
 
-    public void displayContact() {
-        displayContactList(contactDao.displayContact(),"Contact list");
+    public List<Contact> displayAllContact() {
+        return contactDao.selectAllContact();
     }
 
-    public void editContact(long id, String name, String phoneNumber, int age, String address){
-        contactDao.editContact(new Contact(id, name, phoneNumber, age, address));
+    public void editContact(Contact contact){
+        contactDao.editContact(contact);
     }
 
     public void findContact(String name){

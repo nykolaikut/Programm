@@ -2,6 +2,8 @@ package com.kuteinykov.programm.services.impl;
 
 import com.kuteinykov.programm.model.Contact;
 import com.kuteinykov.programm.services.ContactService;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.HashMap;
 
@@ -14,6 +16,7 @@ public class ContactServiceImpl implements ContactService {
     private HashMap<Long, Contact> contactList;
     private HashMap<Long, Contact> searchContactList = new HashMap<>();
     private long idContact = 0;
+    private ObservableList<Contact> list = FXCollections.observableArrayList();
 
 
     public ContactServiceImpl() {
@@ -21,34 +24,37 @@ public class ContactServiceImpl implements ContactService {
         initContact();
     }
 
-    public void createContact(String name, String phoneNumber, int age, String address) {
+    public void createContact(Contact contact) {
         idContact++;
-        contactList.put(idContact, new Contact(idContact, name, phoneNumber, age, address));
+        contactList.put(idContact, new Contact(idContact, contact.getName(), contact.getPhoneNumber(),
+                contact.getAge(), contact.getAddress()));
     }
 
     public void deleteContact(long id) {
         contactList.remove(id);
     }
 
-    public void displayContact() {
-        displayListContact(contactList, "Contact list");
+    public ObservableList<Contact> displayAllContact() {
+ //       displayListContact(contactList, "Contact list");
+//        list.clear();
+        return list;
     }
 
-    private void displayListContact(HashMap<Long, Contact> list, String title){
-        System.out.printf("%20s", title);
-        System.out.println();
-        for (Contact contact : list.values()) {
-            System.out.println(contact);
-        }
-    }
+//    private void displayListContact(HashMap<Long, Contact> list, String title){
+//        System.out.printf("%20s", title);
+//        System.out.println();
+//        for (Contact contact : list.values()) {
+//            System.out.println(contact);
+//        }
+//    }
 
-    public void editContact(long id, String name, String phoneNumber, int age, String address){
+    public void editContact(Contact newContact){
         for (Contact contact : contactList.values()) {
-            if (contact.getId() == id){
-                contact.setName(name);
-                contact.setPhoneNumber(phoneNumber);
-                contact.setAge(age);
-                contact.setAddress(address);
+            if (contact.getId() == newContact.getId()){
+                contact.setName(newContact.getName());
+                contact.setPhoneNumber(newContact.getPhoneNumber());
+                contact.setAge(newContact.getAge());
+                contact.setAddress(newContact.getAddress());
                 return;
             }
         }
@@ -67,9 +73,6 @@ public class ContactServiceImpl implements ContactService {
                         contact.getPhoneNumber(), contact.getAge(), contact.getAddress()));
                 }
             }
-        }
-        if (!searchContactList.isEmpty()) {
-            displayListContact(searchContactList, "Search results");
         }
     }
 

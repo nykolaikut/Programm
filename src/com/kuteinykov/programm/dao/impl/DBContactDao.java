@@ -2,6 +2,7 @@ package com.kuteinykov.programm.dao.impl;
 
 import com.kuteinykov.programm.dao.ContactDao;
 import com.kuteinykov.programm.model.Contact;
+import com.kuteinykov.programm.utils.DialogManager;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -31,24 +32,24 @@ public class DBContactDao implements ContactDao {
                   " AGE INT(3) NOT NULL," +
                   " address VARCHAR(60) default '', PRIMARY KEY (id));");
         } catch (SQLException e) {
-             e.printStackTrace();
+            messageNoConnectin();
         }
     }
 
-    public void saveContact(String name, String phoneNumber, int age, String address) {
+    public void saveContact(Contact contact ) {
         try (Connection connection = DriverManager
                 .getConnection(DB_URL, USER_NAME, PASSWORD);
              PreparedStatement st =
                 connection.prepareStatement("INSERT INTO " + TABLE_NAME + " VALUES( default, ?, ?, ?, ?);")){
 
-            st.setString(1, name);
-            st.setString(2, phoneNumber);
-            st.setInt(3, age);
-            st.setString(4, address);
+            st.setString(1, contact.getName());
+            st.setString(2, contact.getPhoneNumber());
+            st.setInt(3, contact.getAge());
+            st.setString(4, contact.getAddress());
 
             st.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            messageNoConnectin();
         }
     }
 
@@ -62,11 +63,11 @@ public class DBContactDao implements ContactDao {
 
             st.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            messageNoConnectin();
         }
     }
 
-    public ArrayList<Contact> displayContact(){
+    public ArrayList<Contact> selectAllContact(){
         if (!contactList.isEmpty()) contactList.clear();
 
         String query = "SELECT * FROM " + TABLE_NAME + ";";
@@ -102,7 +103,7 @@ public class DBContactDao implements ContactDao {
                 contactList.add(new Contact(id, name, phoneNumber, age, address));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            messageNoConnectin();
         }
     }
 
@@ -121,7 +122,11 @@ public class DBContactDao implements ContactDao {
 
             st.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            messageNoConnectin();
         }
+    }
+
+    private void messageNoConnectin(){
+        DialogManager.showInfoDialog("Error", "The connection to the base database failed.");
     }
 }

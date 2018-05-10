@@ -1,9 +1,10 @@
 package com.kuteinykov.programm.view.impl;
 
+import com.kuteinykov.programm.model.Contact;
 import com.kuteinykov.programm.services.ContactService;
 import com.kuteinykov.programm.utils.ValidationUtil;
 import com.kuteinykov.programm.view.CmdLineService;
-import com.sun.xml.internal.ws.developer.MemberSubmissionAddressing;
+import javafx.collections.ObservableList;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -83,7 +84,7 @@ public class CmdLineServiceImpl implements CmdLineService {
         String address = readAddress();
 
         if (!name.isEmpty() && !phoneNumber.isEmpty() && age >= MIN_AGE && age <= MAX_AGE ) {
-            contactService.createContact(name, phoneNumber, age, address);
+            contactService.createContact(new Contact(0, name, phoneNumber, age, address));
         } else {
             System.out.println("Wrong input!");
         }
@@ -98,9 +99,9 @@ public class CmdLineServiceImpl implements CmdLineService {
     }
 
     private void displayContact(){
-       contactService.displayContact();
-
+//        displayContactList(contactService.displayAllContact(),"Contact list");
     }
+
     private void editContact() throws IOException {
         System.out.println("Enter ID");
         int id = readInt();
@@ -111,7 +112,7 @@ public class CmdLineServiceImpl implements CmdLineService {
             String address = readAddress();
 
             if (!name.isEmpty() && !phoneNumber.isEmpty() && age >= MIN_AGE && age <= MAX_AGE ) {
-                contactService.editContact(id, name, phoneNumber, age, address);
+                contactService.editContact(new Contact(id, name, phoneNumber, age, address));
             } else {
                 System.out.println("Wrong input!");
             }
@@ -167,5 +168,14 @@ public class CmdLineServiceImpl implements CmdLineService {
         System.out.println("Enter address");
         String address = br.readLine();
         return address.trim();
+    }
+
+    private void displayContactList(ObservableList<Contact> list, String title) {
+        System.out.printf("%20s", title);
+        System.out.println();
+        for (Contact contact : list) {
+            System.out.println(contact);
+        }
+        System.out.println();
     }
 }

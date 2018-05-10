@@ -10,9 +10,9 @@ public interface ContactDao {
      * (файловая система, БД и т.д.)
      */
 
-    void saveContact(String name, String phoneNumber, int age, String address);
+    void saveContact(Contact contact);
     void deleteContact(long id);
-    List<Contact> displayContact();
+    List<Contact> selectAllContact();
     List<Contact> findContact(String name);
     void editContact(Contact contact);
 }
