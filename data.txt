@@ -1,0 +1,7 @@
+1:Olga:1234567:25:Address Olga Kyiv
+2:Tanya:45-12-36-7:22:Address Tanya
+3:Natasha:12 34 567:32:Address Natasha
+4:Olga:56-88-908:33:Address Olga Dnepr
+5:Oleg:+38-093-123-45-67:88:Address Oleg
+6:rrr:123154235:44:454df
+8:Sveta:756-88-90:63:Address Sveta
