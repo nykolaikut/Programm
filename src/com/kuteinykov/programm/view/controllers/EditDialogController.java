@@ -14,11 +14,11 @@ import javafx.stage.Stage;
 public class EditDialogController {
 
     private static final String DIGITS = "0987654321";
-    private static final String SYMBOLS_PHONE_NUMBER = "+- 0987654321";
+    private static final String PHONE_NUMBER_CHARACTERS = "+- 0987654321";
     private static final int MIN_NUMBER_OF_DIGITS = 7;
     private static final int MAX_NUMBER_OF_DIGITS = 12;
-    private static final int MAX_AGE = 100;
     private static final int MIN_AGE = 1;
+    private static final int MAX_AGE = 100;
 
     @FXML
     private Label labelName;
@@ -84,24 +84,24 @@ public class EditDialogController {
         errorText = "";
         boolean checkField = true;
 
-        while(true) {
+        while(checkField) {
 
             // check field Name
             if (!checkName(txtName.getText().trim())) {
                 checkField = false;
-                break;
+                continue;
             }
 
             // check field Phone
             if (!checkPhone(txtPhone.getText().trim())) {
                 checkField = false;
-                break;
+                continue;
             }
 
             // check field Age
             if (!checkAge(txtAge.getText().trim())) {
                 checkField = false;
-                break;
+                continue;
             }
 
             break;
@@ -128,9 +128,9 @@ public class EditDialogController {
             return false;
         }
 
-        if (!ValidationUtil.checkInput( s, SYMBOLS_PHONE_NUMBER))
+        if (!ValidationUtil.checkInput( s, PHONE_NUMBER_CHARACTERS))
         {
-            errorText = "Use only symbols " + SYMBOLS_PHONE_NUMBER + " in field <Phone>.";
+            errorText = "Use only characters " + PHONE_NUMBER_CHARACTERS + " in field <Phone>.";
             return false;
         }
 
@@ -153,7 +153,7 @@ public class EditDialogController {
 
         if (!ValidationUtil.checkInput( s, DIGITS))
         {
-            errorText =  "Use only symbols " + DIGITS + " in field <Age>.";
+            errorText =  "Use only characters " + DIGITS + " in field <Age>.";
             return false;
         }
 

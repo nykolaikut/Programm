@@ -18,11 +18,11 @@ public class CmdLineServiceImpl implements CmdLineService {
      */
 
     private static final String DIGITS = "0987654321";
-    private static final String SYMBOLS_PHONE_NUMBER = "+- 0987654321";
+    private static final String PHONE_NUMBER_CHARACTERS = "+- 0987654321";
     private static final int MIN_NUMBER_OF_DIGITS = 7;
     private static final int MAX_NUMBER_OF_DIGITS = 12;
-    private static final int MAX_AGE = 100;
     private static final int MIN_AGE = 1;
+    private static final int MAX_AGE = 100;
 
     private ContactService contactService;
     private BufferedReader br;
@@ -137,7 +137,7 @@ public class CmdLineServiceImpl implements CmdLineService {
         System.out.println("Enter phoneNumber");
         String phoneNumber = br.readLine();
         phoneNumber = phoneNumber.trim();
-        if(!ValidationUtil.checkInput( phoneNumber, SYMBOLS_PHONE_NUMBER)) {
+        if(!ValidationUtil.checkInput( phoneNumber, PHONE_NUMBER_CHARACTERS)) {
             return "";
         }
         if(ValidationUtil.countDigits( phoneNumber, DIGITS) < MIN_NUMBER_OF_DIGITS
