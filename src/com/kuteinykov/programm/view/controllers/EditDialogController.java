@@ -130,7 +130,7 @@ public class EditDialogController {
 
         if (!ValidationUtil.checkInput( s, PHONE_NUMBER_CHARACTERS))
         {
-            errorText = "Use only characters " + PHONE_NUMBER_CHARACTERS + " in field <Phone>.";
+            errorText = "Use only characters " + PHONE_NUMBER_CHARACTERS + " in the field <Phone>.";
             return false;
         }
 
@@ -138,7 +138,7 @@ public class EditDialogController {
             || ValidationUtil.countDigits( s, DIGITS) > MAX_NUMBER_OF_DIGITS )
         {
             errorText = "Count of digits from " + MIN_NUMBER_OF_DIGITS +
-                        " to " + MAX_NUMBER_OF_DIGITS + " in field <Phone>.";
+                        " to " + MAX_NUMBER_OF_DIGITS + " in the field <Phone>.";
             return false;
         }
 
@@ -153,7 +153,7 @@ public class EditDialogController {
 
         if (!ValidationUtil.checkInput( s, DIGITS))
         {
-            errorText =  "Use only characters " + DIGITS + " in field <Age>.";
+            errorText =  "Use only characters " + DIGITS + " in the field <Age>.";
             return false;
         }
 
