@@ -126,23 +126,33 @@ public class MainController {
     }
 
     private void initListener() {
-        contactBookImpl.getContactlist().addListener(new ListChangeListener<Contact>() {
-            @Override
-            public void onChanged(Change<? extends Contact> c) {
-                updateLabelCount();
-            }
-        });
 
-        tableContact.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (event.getClickCount() == 2) {
-                    editDialogController.setContact((Contact) tableContact.getSelectionModel().getSelectedItem());
-                    showDialog();
-                    contactService.editContact((Contact) tableContact.getSelectionModel().getSelectedItem());
-                }
+        contactBookImpl.getContactlist().addListener((ListChangeListener<Contact>) c -> updateLabelCount());
+//        contactBookImpl.getContactlist().addListener(new ListChangeListener<Contact>() {
+//            @Override
+//            public void onChanged(Change<? extends Contact> c) {
+//                updateLabelCount();
+//            }
+//        });
+
+        tableContact.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                editDialogController.setContact((Contact) tableContact.getSelectionModel().getSelectedItem());
+                showDialog();
+                contactService.editContact((Contact) tableContact.getSelectionModel().getSelectedItem());
             }
         });
+//        tableContact.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//                if (event.getClickCount() == 2) {
+//                    editDialogController.setContact((Contact) tableContact.getSelectionModel().getSelectedItem());
+//                    showDialog();
+//                    contactService.editContact((Contact) tableContact.getSelectionModel().getSelectedItem());
+//                }
+//            }
+//        });
+
     }
 
     private void initLoader() {

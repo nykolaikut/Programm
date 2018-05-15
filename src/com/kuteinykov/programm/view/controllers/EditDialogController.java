@@ -82,88 +82,80 @@ public class EditDialogController {
 
     private boolean checkValues(){
         errorText = "";
-        boolean checkField = true;
 
-        while(checkField) {
+        while(errorText.isEmpty()) {
 
             // check field Name
             if (!checkName(txtName.getText().trim())) {
-                checkField = false;
                 continue;
             }
 
             // check field Phone
             if (!checkPhone(txtPhone.getText().trim())) {
-                checkField = false;
                 continue;
             }
 
             // check field Age
             if (!checkAge(txtAge.getText().trim())) {
-                checkField = false;
                 continue;
             }
 
             break;
         }
 
-        if (!checkField) {
+        if (!errorText.isEmpty()) {
             DialogManager.showErrorDialog("Error", errorText);
-            return false;
         }
-        return true;
+
+        return errorText.isEmpty();
     }
 
     private boolean checkName(String s){
         if (s.length() == 0) {
             errorText = "Field <Name> is empty.";
-            return false;
         }
-        return true;
+
+        return errorText.isEmpty();
     }
 
     private boolean checkPhone(String s){
         if (s.length() == 0) {
             errorText = "Field <Phone> is empty.";
-            return false;
         }
 
-        if (!ValidationUtil.checkInput( s, PHONE_NUMBER_CHARACTERS))
-        {
-            errorText = "Use only characters " + PHONE_NUMBER_CHARACTERS + " in the field <Phone>.";
-            return false;
+        if (errorText.isEmpty()) {
+            if (!ValidationUtil.checkInput(s, PHONE_NUMBER_CHARACTERS)) {
+                errorText = "Use only characters " + PHONE_NUMBER_CHARACTERS + " in the field <Phone>.";
+            }
         }
 
-        if (ValidationUtil.countDigits( s, DIGITS) < MIN_NUMBER_OF_DIGITS
-            || ValidationUtil.countDigits( s, DIGITS) > MAX_NUMBER_OF_DIGITS )
-        {
-            errorText = "Count of digits from " + MIN_NUMBER_OF_DIGITS +
+        if (errorText.isEmpty()) {
+            if (ValidationUtil.countDigits(s, DIGITS) < MIN_NUMBER_OF_DIGITS
+                    || ValidationUtil.countDigits(s, DIGITS) > MAX_NUMBER_OF_DIGITS) {
+                errorText = "Number of digits from " + MIN_NUMBER_OF_DIGITS +
                         " to " + MAX_NUMBER_OF_DIGITS + " in the field <Phone>.";
-            return false;
+            }
         }
 
-        return true;
+        return errorText.isEmpty();
     }
 
     private boolean checkAge(String s){
         if (s.length() == 0) {
             errorText = "Field <Age> is empty.";
-            return false;
         }
 
-        if (!ValidationUtil.checkInput( s, DIGITS))
-        {
-            errorText =  "Use only characters " + DIGITS + " in the field <Age>.";
-            return false;
+        if (errorText.isEmpty()) {
+            if (!ValidationUtil.checkInput(s, DIGITS))
+                errorText = "Use only characters " + DIGITS + " in the field <Age>.";
         }
 
-        if(Integer.valueOf(s) < MIN_AGE || Integer.valueOf(s) > MAX_AGE)
-        {
-            errorText = "The value of field <Age> must be in the range "
+        if (errorText.isEmpty()) {
+            if (Integer.valueOf(s) < MIN_AGE || Integer.valueOf(s) > MAX_AGE)
+                errorText = "The value of field <Age> must be in the range "
                         + MIN_AGE + " - " + MAX_AGE + ".";
-            return false;
         }
 
-        return true;
+        return errorText.isEmpty();
     }
 }
